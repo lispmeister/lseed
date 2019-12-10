@@ -31,10 +31,11 @@ RUN apk --no-cache add \
     ca-certificates
 
 # Copy the binaries from the builder image.
-COPY --from=builder /go/src/github.com/lispmeister/lseed /lseed
+COPY --from=builder /go/src/github.com/lispmeister/lseed/lseed /lseed
 
 # Copy macaroon
 COPY ./tmp/readonly.macaroon /readonly.macaroon
+COPY ./tmp/tls.cert /tls.cert
 
 # Expose lnd ports (p2p, rpc).
 EXPOSE 53
