@@ -108,7 +108,8 @@ func (nv *NetworkView) RandomSample(query NodeType, count int) []Node {
 		}
 	}
 
-	fmt.Println("Num reachable nodes: %v", len(nv.reachableNodes))
+	// fmt.Println("Num reachable nodes: %v", len(nv.reachableNodes))
+	log.Infof("Num reachable nodes: %v", len(nv.reachableNodes))
 
 	return result
 }

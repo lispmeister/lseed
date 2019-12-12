@@ -87,6 +87,7 @@ func addAAAAResponse(n Node, name string, responses *[]dns.RR) {
 			Hdr:  header,
 			AAAA: a.IP.To16(),
 		}
+		log.Debugf("Adding AAAA response record: %s", name)
 		*responses = append(*responses, rr)
 	}
 }
@@ -96,8 +97,8 @@ func (ds *DnsServer) locateChainView(subdomain string) *ChainView {
 
 	subdomain = strings.TrimSpace(subdomain)
 	segments := strings.SplitAfter(subdomain, ".")
-	//	log.Debug("seg: ", segments)
-	//log.Debug("seg: ", len(segments))
+	log.Debug("seg: ", segments)
+	log.Debug("seg: ", len(segments))
 
 	switch {
 
@@ -125,9 +126,10 @@ func (ds *DnsServer) locateChainView(subdomain string) *ChainView {
 func (ds *DnsServer) handleAAAAQuery(request *dns.Msg, response *dns.Msg,
 	subDomain string) {
 
+	log.Debugf("Handling AAAA query")
 	chainView, ok := ds.chainViews[subDomain]
 	if !ok {
-		//log.Errorf("no chain view found for %v", subDomain)
+		log.Errorf("no chain view found for %v", subDomain)
 		return
 	}
 
@@ -140,9 +142,10 @@ func (ds *DnsServer) handleAAAAQuery(request *dns.Msg, response *dns.Msg,
 func (ds *DnsServer) handleAQuery(request *dns.Msg, response *dns.Msg,
 	subDomain string) {
 
+	log.Debugf("Handling A query")
 	chainView, ok := ds.chainViews[subDomain]
 	if !ok {
-		//log.Errorf("no chain view found for %v", subDomain)
+		log.Errorf("no chain view found for %v", subDomain)
 		return
 	}
 
@@ -161,7 +164,8 @@ func (ds *DnsServer) handleAQuery(request *dns.Msg, response *dns.Msg,
 func (ds *DnsServer) handleSRVQuery(request *dns.Msg, response *dns.Msg,
 	subDomain string) {
 
-	//log.Debugf("taget subdomain: ", subDomain)
+	log.Debugf("Handling SRV query")
+	log.Debugf("taget subdomain: ", subDomain)
 
 	var (
 		chainView *ChainView
@@ -332,7 +336,7 @@ func (ds *DnsServer) handleLightningDns(w dns.ResponseWriter, r *dns.Msg) {
 	req, err := ds.parseRequest(r.Question[0].Name, r.Question[0].Qtype)
 
 	if err != nil {
-		//log.Errorf("error parsing request: %v", err)
+		log.Errorf("error parsing request: %v", err)
 		return
 	}
 
@@ -349,6 +353,7 @@ func (ds *DnsServer) handleLightningDns(w dns.ResponseWriter, r *dns.Msg) {
 	// IP address of the authoritative DNS server for fallback TCP
 	// purposes.
 	case strings.HasPrefix(req.subdomain, "soa"):
+		log.Debugf("Handling SOA request")
 		soaResp := &dns.A{
 			Hdr: dns.RR_Header{
 				Rrtype: dns.TypeA,

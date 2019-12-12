@@ -160,8 +160,10 @@ func configure() {
 	flag.Parse()
 	if *debug {
 		log.SetLevel(log.DebugLevel)
+		log.Infof("Logging on level Debug")
 	} else {
 		log.SetLevel(log.InfoLevel)
+		log.Infof("Logging on level Info")
 	}
 }
 
