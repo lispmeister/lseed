@@ -272,15 +272,15 @@ func (nv *NetworkView) reachabilityPruner() {
 		// addresses are reachable.
 		case newNode := <-nv.freshNodes:
 			go func() {
-				log.Infof("waiting to grab sema")
+				// log.Infof("waiting to grab sema")
 				<-searchSema
 
 				defer func() {
 					searchSema <- struct{}{}
-					log.Infof("sema returned")
+					// log.Infof("sema returned")
 				}()
 
-				log.Infof("got sema")
+				// log.Infof("got sema")
 				extractReachableAddrs(newNode, false)
 			}()
 
