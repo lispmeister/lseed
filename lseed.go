@@ -144,7 +144,7 @@ func poller(lnd lnrpc.LightningClient, nview *seed.NetworkView) {
 			if _, err := nview.AddNode(node); err != nil {
 				log.Debugf("Unable to add node: %v", err)
 			} else {
-				log.Debug("Adding node: %v", node.Addresses)
+				log.Debugf("Adding node: %v", node.Addresses)
 			}
 		}
 	}
