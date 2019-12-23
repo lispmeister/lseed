@@ -36,8 +36,7 @@ COPY ./tmp/readonly.macaroon /readonly.macaroon
 COPY ./tmp/tls.cert /tls.cert
 
 # Expose lnd ports (p2p, rpc).
-EXPOSE 53
-EXPOSE 53/udp
+EXPOSE 53/udp 53/tcp
 
 # Specify the start command and entrypoint as the lnd daemon.
 ENTRYPOINT ["/lseed"]
